@@ -11,6 +11,8 @@ import {
 /* ==========================================
     🟩 IMPORTS DE MIS COMPONENTES
    ========================================== */
+// CORREGIDO: Se cambió 'calculadoraDolar' a 'CalculadoraDolar' para que
+// coincida con el nombre real del archivo en la carpeta 'componentes'.
 import CalculadoraDolar from "./componentes/calculadoraDolar";
 
 
@@ -21,7 +23,7 @@ createRoot(document.getElementById('root')).render(
     <StrictMode>
       <RouterProvider
         router={createBrowserRouter([
-          { path: "/", c: <CalculadoraDolar /> },
+          { path: "calculadora", element: <CalculadoraDolar /> }, // Se corrigió 'c' a 'element'
         ])}
       />
     </StrictMode>

@@ -79,7 +79,7 @@ export default function CalculadoraDolar() {
 
 
   return (
-    <div className="p-6 max-w-sm mx-auto bg-white shadow-lg rounded-xl">
+  <div className="p-6 max-w-sm mx-auto bg-white shadow-lg rounded-xl">
 
       {/* Título de la app */}
       <h2 className="text-xl font-semibold mb-4 text-gray-700 text-center">
@@ -106,6 +106,12 @@ export default function CalculadoraDolar() {
           USD: {convertir()}
         </p>
       )}
+
+    <div>
+      <h2>Hola</h2>
     </div>
+
+  </div>
+    
   );
 }
