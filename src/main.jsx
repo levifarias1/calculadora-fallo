@@ -5,7 +5,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider,} from "react-router-dom";
-import App from "./App.jsx";
+
 
 /* ==========================================
     🟩 IMPORTS DE MIS COMPONENTES
@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')).render(
     <StrictMode>
       <RouterProvider
         router={createBrowserRouter([
-          { path: "calculadora", element: <CalculadoraDolar /> }, // Se corrigió 'c' a 'element'
+          { path: "/", element: <CalculadoraDolar /> }, // Se corrigió 'c' a 'element'
         ])}
       />
     </StrictMode>
