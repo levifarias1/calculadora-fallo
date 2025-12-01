@@ -108,7 +108,7 @@ export default function CalculadoraDolar() {
       )}
 
     <div>
-      <h2>Hola</h2>
+      <h2></h2>
     </div>
 
   </div>
