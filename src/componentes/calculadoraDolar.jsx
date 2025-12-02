@@ -1,117 +1,96 @@
 import { useState, useEffect } from "react";
+import imagenMonito from '../assets/TikTok-Monkey-2340a4ca3baa45b9adc145d1e5db988b.jpg'
 
 export default function CalculadoraDolar() {
-  /**
-   * pesos → lo que el usuario escribe en el input
-   * tasa → la tasa del dólar que trae la API (cuántos pesos cuesta 1 USD)
-   * loading → indica si la API todavía se está cargando
-   */
+
   const [pesos, setPesos] = useState("");
   const [tasa, setTasa] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  /**
-   * useEffect:
-   * Este bloque se ejecuta UNA sola vez cuando el componente aparece en pantalla.
-   * Sirve para hacer la llamada a la API y traer la tasa del dólar actualizada.
-   */
-  useEffect(() => {
+  const convertir = () => {
+    if (!pesos || !tasa) return "---";
+    return (parseFloat(pesos) / tasa).toFixed(2);
+  };
 
-    // Definimos una función async para poder usar "await".
+  const revertirTasa = () => {
+    if (!tasa || tasa === 0) return;
+    setTasa((1 / tasa).toFixed(6));
+  };
+
+  useEffect(() => {
     const fetchTasa = async () => {
       try {
-        /**
-         * Usamos una API estable que devuelve el dólar oficial en Argentina:
-         *    https://dolarapi.com/v1/dolares/oficial
-         * Esta API devuelve un JSON con "compra" y "venta".
-         * En nuestro caso usamos "venta" (precio al que se compra el dólar).
-         */
         const res = await fetch("https://dolarapi.com/v1/dolares/oficial");
-
-        // Convertimos la respuesta a un objeto JSON.
         const data = await res.json();
-
-        /**
-         * Si la API respondió correctamente,
-         * guardamos la tasa del dólar:
-         *    data.venta = pesos por 1 USD
-         */
-        if (data.venta) {
-          setTasa(data.venta);
-        }
+        if (data.venta) setTasa(data.venta);
       } catch (error) {
-        /**
-         * Si ocurre un error (sin internet, API caída, etc.)
-         * lo mostramos en la consola para depurar.
-         */
         console.log("Error cargando tasa:", error);
       } finally {
-        /**
-         * No importa si salió bien o mal,
-         * dejamos de mostrar "Cargando..."
-         */
         setLoading(false);
       }
     };
-
-    // Ejecutamos la función que definimos arriba.
     fetchTasa();
-
-  }, []); // ← El array vacío significa que solo se ejecuta una vez.
-
-
-  /**
-   * Función para convertir los pesos a dólares.
-   * Si todavía no hay tasa o el usuario no escribió un número,
-   * siempre devolvemos 0.00 para evitar errores.
-   *
-   * IMPORTANTE:
-   *   Antes usábamos "pesos * tasa" porque la API daba ARS → USD.
-   *   Ahora la API da PESOS POR 1 USD, entonces:
-   *
-   *        dólares = pesos / tasa
-   */
-  const convertir = () => {
-    if (!pesos || isNaN(pesos) || tasa === null) return "0.00";
-
-    return (pesos / tasa).toFixed(2); // Redondeamos a 2 decimales.
-  };
-
+  }, []);
 
   return (
-  <div className="p-6 max-w-sm mx-auto bg-white shadow-lg rounded-xl">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-6">
 
-      {/* Título de la app */}
-      <h2 className="text-xl font-semibold mb-4 text-gray-700 text-center">
-        Conversor ARS → USD (con API)
-      </h2>
+      {/* Contenedor en fila */}
+      <div className="flex items-center gap-8">
 
-      {/* Input donde el usuario escribe los pesos */}
-      <input
-        type="number"
-        placeholder="Ingrese pesos argentinos"
-        value={pesos}
-        onChange={(e) => setPesos(e.target.value)}
-        className="w-full p-3 border rounded-lg mb-4"
-      />
+        {/* Imagen */}
+        <img
+  src={imagenMonito}
+  alt="TikTok Monkey"
+  style={{
+    width: "180px",
+    height: "180px",
+    objectFit: "cover"
+  }}
+  className="rounded-xl shadow-xl border border-white/20"
+/>
 
-      {/* Si la API todavía se está cargando, mostramos un mensaje... */}
-      {loading ? (
-        <p className="text-gray-600 text-center">Cargando tasa actual...</p>
-      ) : (
-        /**
-         * ...y si ya cargó, mostramos el resultado.
-         */
-        <p className="text-center text-lg font-semibold">
-          USD: {convertir()}
-        </p>
-      )}
 
-    <div>
-      <h2></h2>
+        {/* Calculadora */}
+        <div className="bg-white/70 backdrop-blur-lg p-6 max-w-sm w-full rounded-xl shadow-2xl">
+
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+            Conversor ARS → USD
+          </h2>
+
+          <input
+            type="number"
+            placeholder="Ingrese pesos argentinos"
+            value={pesos}
+            onChange={(e) => setPesos(e.target.value)}
+            className="w-full p-3 rounded-lg mb-4 bg-white/50 border border-gray-300 focus:outline-none"
+          />
+
+          {loading ? (
+            <p className="text-gray-700 text-center">Cargando tasa actual...</p>
+          ) : (
+            <>
+              <p className="text-center text-2xl font-bold text-green-700">
+                USD: {convertir()}
+              </p>
+
+              {/* Botón para revertir la tasa */}
+              <button
+                onClick={revertirTasa}
+                className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg"
+              >
+                Revertir tasa
+              </button>
+
+              {/* Mostrar la tasa actual */}
+              <p className="text-center text-sm mt-2 text-gray-700">
+                Tasa actual: {tasa}
+              </p>
+            </>
+          )}
+
+        </div>
+      </div>
     </div>
-
-  </div>
-    
   );
 }

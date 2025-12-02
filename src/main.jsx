@@ -24,6 +24,8 @@ createRoot(document.getElementById('root')).render(
     <StrictMode>
       <RouterProvider
         router={createBrowserRouter([
+
+          
           { path: "/", element: <CalculadoraDolar /> }, // Se corrigió 'c' a 'element'
         ])}
       />
