@@ -1,47 +1,139 @@
-/* Ejemplo: Estilizando con ID */
+/* RESET BASICO: Asegura que el navegador no meta margenes raros */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
+/* 1. CONTENEDOR PRINCIPAL (#conversor-app) */
 #conversor-app {
-    /* Aquí se definen las clases: .min-h-screen, .flex, .bg-gray-900, etc. */
-    background-color: #111827;
-}
-
-#tarjeta-conversor {
-    /* Aquí se definen las clases: .bg-white\/70, .p-8, .rounded-2xl, etc. */
-    padding: 32px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 16px;
-    /* ... otros estilos de la tarjeta */
-}
-
-/* Puedes combinar ID y clases para mayor especificidad */
-#tarjeta-conversor .font-semibold {
-    font-weight: 600;
-}
-
-/* Estilizando un input específico por ID */
-#inputPesos {
-    /* ... estilos del input */
-    margin-bottom: 24px;
-}
-/* Ajusta el fondo de la pantalla*/
-.min-h-screen {
     min-height: 100vh;
-}
-/* aplica display flex seccion de la calculadora*/
-.flex {
     display: flex;
-}
-/*ajusta el largo vertival de la calculadora */
-.items-center {
     align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+    padding: 40px;
 }
 
-.justify-center {
+/* 2. CONTENEDOR CENTRAL (#contenedor-central) */
+#contenedor-central {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+    flex-wrap: wrap;
     justify-content: center;
 }
-.bg-gray-900 {
-    background-color: #111827;
+
+/* 3. IMAGEN DEL MONITO (#imagen-monito) */
+#imagen-monito {
+    border-radius: 16px;
+    box-shadow: 4px 4px 8px #000000;
+    border: 1px solid #cccccc;
 }
-.p-10 {
-    padding: 2.5rem;
+
+/* 4. TARJETA CALCULADORA (#tarjeta-conversor) */
+#tarjeta-conversor {
+    background-color: #f7f7f7;
+    padding: 32px;
+    max-width: 448px;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 6px 6px 12px #666666;
+    border: 1px solid #bbbbbb;
+}
+
+/* 5. ELEMENTOS DE LA TARJETA (Títulos, Textos) */
+#tarjeta-conversor h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: #333333;
+    text-align: center;
+}
+
+#tarjeta-conversor label {
+    font-weight: bold;
+    color: #444444;
+    display: block;
+}
+
+#mensajeCarga {
+    color: #666666;
+    text-align: center;
+}
+
+/* 6. INPUTS Y SELECT */
+.w-full { width: 100%; }
+.p-3 { padding: 10px; }
+.mt-1 { margin-top: 5px; }
+.mb-6 { margin-bottom: 20px; }
+.rounded-lg { border-radius: 5px; }
+
+/* Estilos combinados para Input y Select */
+#tarjeta-conversor select, #tarjeta-conversor input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #999999;
+    font-size: 16px;
+}
+#tarjeta-conversor input[type="text"]:focus, #tarjeta-conversor select:focus {
+    outline: 2px solid #5555ff;
+    border-color: #5555ff;
+}
+
+/* 7. RESULTADO Y BOTÓN */
+#resultadoUSD {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #008000;
+}
+
+#botonRevertir {
+    width: 100%;
+    margin-top: 25px;
+    background-color: #800080;
+    color: #ffffff;
+    padding: 12px 0;
+    border-radius: 5px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#botonRevertir:hover {
+    background-color: #550055;
+}
+
+#tasaActual {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 15px;
+    color: #555555;
+}
+
+/* 8. MEDIA QUERY (Móviles) */
+@media (max-width: 768px) {
+
+    #conversor-app {
+        padding: 15px;
+    }
+
+    #contenedor-central {
+        gap: 20px;
+    }
+
+    #imagen-monito {
+        display: none;
+    }
+
+    #tarjeta-conversor {
+        padding: 20px;
+        max-width: 100%;
+    }
 }

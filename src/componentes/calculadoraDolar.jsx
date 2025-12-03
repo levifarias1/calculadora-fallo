@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import imagenMonito from '../assets/TikTok-Monkey-2340a4ca3baa45b9adc145d1e5db988b.jpg';
-import '../CSS/stilo.css';
+import '../CSS/stilo.css'
 
 export default function CalculadoraDolar() {
 
@@ -9,6 +9,8 @@ export default function CalculadoraDolar() {
   const [tasa, setTasa] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tipoDolar, setTipoDolar] = useState("oficial");
+  // 1. Nuevo estado para rastrear la dirección de la conversión. True por defecto (ARS -> USD)
+  const [esConversionArsUsd, setEsConversionArsUsd] = useState(true); 
 
   const urls = {
     oficial: "https://dolarapi.com/v1/dolares/oficial",
@@ -37,16 +39,20 @@ export default function CalculadoraDolar() {
     setPesos(formatearMiles(val));
   };
 
-  const convertir = () => {
+  // Se renombró la función para que sea más genérica
+  const convertir = () => { 
     if (!pesosRaw || !tasa) return "---";
-    const usd = (parseFloat(pesosRaw) / tasa).toFixed(2);
-    return formatearNumero(usd);
+    // El cálculo sigue siendo el mismo: valor ingresado / tasa
+    const resultado = (parseFloat(pesosRaw) / tasa).toFixed(2);
+    return formatearNumero(resultado);
   };
 
   const revertirTasa = () => {
     if (!tasa || tasa === 0) return;
     const nueva = (1 / tasa).toFixed(6);
     setTasa(parseFloat(nueva));
+    // 2. Cambiar la dirección de la conversión
+    setEsConversionArsUsd(prev => !prev); 
   };
 
   useEffect(() => {
@@ -55,7 +61,12 @@ export default function CalculadoraDolar() {
       try {
         const res = await fetch(urls[tipoDolar]);
         const data = await res.json();
-        if (data.venta) setTasa(data.venta);
+        if (data.venta) {
+            setTasa(data.venta);
+            // 3. Al cargar una nueva tasa, aseguramos que la dirección vuelva a ser ARS -> 
+            //No me acordaba de esta genialidad JAJAJA
+            setEsConversionArsUsd(true); 
+        }
       } catch (error) {
         console.log("Error cargando tasa:", error);
       } finally {
@@ -64,6 +75,13 @@ export default function CalculadoraDolar() {
     };
     fetchTasa();
   }, [tipoDolar]);
+
+  // Texto dinámico para el título
+  const tituloConversor = esConversionArsUsd ? "Conversor ARS → USD" : "Conversor USD → ARS";
+
+  // Texto dinámico para el resultado
+  const etiquetaResultado = esConversionArsUsd ? "USD:" : "ARS:";
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-10" id="conversor-app">
@@ -81,7 +99,8 @@ export default function CalculadoraDolar() {
         <div className="bg-white/70 backdrop-blur-lg p-8 max-w-md w-full rounded-2xl shadow-2xl" id="tarjeta-conversor">
 
           <h2 className="text-3xl font-semibold mb-6 text-gray-900 text-center">
-            Conversor ARS → USD
+            {/* 3. Usar el título dinámico */}
+            {tituloConversor} 
           </h2>
 
           <label className="text-gray-200 font-semibold" htmlFor="tipoDolarSelect">Tipo de dólar: </label>
@@ -100,7 +119,7 @@ export default function CalculadoraDolar() {
 
           <input
             type="text"
-            placeholder="Ingrese pesos argentinos"
+            placeholder={esConversionArsUsd ? "Ingrese pesos argentinos" : "Ingrese dólares estadounidenses"} 
             value={pesos}
             onChange={handleChangePesos}
             className="w-full p-3 rounded-lg mb-6 bg-white/60 border border-gray-300 focus:outline-none text-lg"
@@ -112,7 +131,7 @@ export default function CalculadoraDolar() {
           ) : (
             <>
               <p className="text-center text-3xl font-bold text-green-700" id="resultadoUSD">
-                USD: {convertir()}
+                {etiquetaResultado} {convertir()}
               </p>
 
               <button
