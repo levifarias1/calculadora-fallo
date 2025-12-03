@@ -1,0 +1,47 @@
+/* Ejemplo: Estilizando con ID */
+
+#conversor-app {
+    /* Aquí se definen las clases: .min-h-screen, .flex, .bg-gray-900, etc. */
+    background-color: #111827;
+}
+
+#tarjeta-conversor {
+    /* Aquí se definen las clases: .bg-white\/70, .p-8, .rounded-2xl, etc. */
+    padding: 32px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    /* ... otros estilos de la tarjeta */
+}
+
+/* Puedes combinar ID y clases para mayor especificidad */
+#tarjeta-conversor .font-semibold {
+    font-weight: 600;
+}
+
+/* Estilizando un input específico por ID */
+#inputPesos {
+    /* ... estilos del input */
+    margin-bottom: 24px;
+}
+/* Ajusta el fondo de la pantalla*/
+.min-h-screen {
+    min-height: 100vh;
+}
+/* aplica display flex seccion de la calculadora*/
+.flex {
+    display: flex;
+}
+/*ajusta el largo vertival de la calculadora */
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+.bg-gray-900 {
+    background-color: #111827;
+}
+.p-10 {
+    padding: 2.5rem;
+}

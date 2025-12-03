@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import imagenMonito from '../assets/TikTok-Monkey-2340a4ca3baa45b9adc145d1e5db988b.jpg';
+import '../CSS/stilo.css';
 
 export default function CalculadoraDolar() {
 
@@ -65,75 +66,71 @@ export default function CalculadoraDolar() {
   }, [tipoDolar]);
 
   return (
-  <div className="min-h-screen flex items-center justify-center bg-gray-800 p-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-10" id="conversor-app">
 
-    <div className="flex items-center gap-14 flex-wrap justify-center">
+      <div className="flex items-center gap-14" id="contenedor-central">
 
-      <img
-        src={imagenMonito}
-        alt="TikTok Monkey"
-        style={{ width: "220px", height: "220px", objectFit: "cover" }}
-        className="rounded-2xl shadow-xl border border-white/20"
-      />
-
-      <div className="bg-white/80 p-8 max-w-md w-full rounded-2xl shadow-2xl border border-gray-300">
-
-        <h2 className="text-3xl font-semibold mb-4 text-gray-900 text-center">
-          Conversor ARS → USD
-        </h2>
-
-        {/* Párrafo de explicación */}
-        <p className="text-gray-700 text-center mb-6">
-          Esta calculadora te permite convertir pesos argentinos a dólares usando distintas cotizaciones.
-        </p>
-
-        <label className="text-gray-800 font-semibold">Tipo de dólar: </label>
-        <select
-          value={tipoDolar}
-          onChange={(e) => setTipoDolar(e.target.value)}
-          className="w-full p-3 mt-1 mb-6 rounded-lg bg-gray-100 border border-gray-300 text-gray-900
-                     focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          <option value="oficial">Oficial</option>
-          <option value="blue">Blue</option>
-          <option value="mep">MEP</option>
-          <option value="ccl">CCL</option>
-          <option value="tarjeta">Tarjeta</option>
-        </select>
-
-        <input
-          type="text"
-          placeholder="Ingrese pesos argentinos"
-          value={pesos}
-          onChange={handleChangePesos}
-          className="w-full p-3 rounded-lg mb-6 bg-gray-100 border border-gray-300 text-gray-900
-                     focus:outline-none focus:ring-2 focus:ring-blue-400"
+        <img
+          src={imagenMonito}
+          alt="TikTok Monkey"
+          style={{ width: "220px", height: "220px", objectFit: "cover" }}
+          className="rounded-2xl shadow-2xl border border-white/20"
+          id="imagen-monito"
         />
 
-        {loading ? (
-          <p className="text-gray-700 text-center">Cargando tasa...</p>
-        ) : (
-          <>
-            <p className="text-center text-3xl font-bold text-green-700">
-              USD: {convertir()}
-            </p>
+        <div className="bg-white/70 backdrop-blur-lg p-8 max-w-md w-full rounded-2xl shadow-2xl" id="tarjeta-conversor">
 
-            <button
-              onClick={revertirTasa}
-              className="w-full mt-5 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-lg"
-            >
-              Revertir tasa
-            </button>
+          <h2 className="text-3xl font-semibold mb-6 text-gray-900 text-center">
+            Conversor ARS → USD
+          </h2>
 
-            <p className="text-center text-base mt-4 text-gray-800">
-              Tasa actual ({tipoDolar}): {formatearNumero(tasa)}
-            </p>
-          </>
-        )}
+          <label className="text-gray-200 font-semibold" htmlFor="tipoDolarSelect">Tipo de dólar: </label>
+          <select
+            value={tipoDolar}
+            onChange={(e) => setTipoDolar(e.target.value)}
+            className="w-full p-3 mt-1 mb-6 rounded-lg bg-white/60 border border-gray-300 focus:outline-none text-lg"
+            id="tipoDolarSelect"
+          >
+            <option value="oficial">Oficial</option>
+            <option value="blue">Blue</option>
+            <option value="mep">MEP</option>
+            <option value="ccl">CCL</option>
+            <option value="tarjeta">Tarjeta</option>
+          </select>
 
+          <input
+            type="text"
+            placeholder="Ingrese pesos argentinos"
+            value={pesos}
+            onChange={handleChangePesos}
+            className="w-full p-3 rounded-lg mb-6 bg-white/60 border border-gray-300 focus:outline-none text-lg"
+            id="inputPesos"
+          />
+
+          {loading ? (
+            <p className="text-gray-700 text-center" id="mensajeCarga">Cargando tasa...</p>
+          ) : (
+            <>
+              <p className="text-center text-3xl font-bold text-green-700" id="resultadoUSD">
+                USD: {convertir()}
+              </p>
+
+              <button
+                onClick={revertirTasa}
+                className="w-full mt-5 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg text-lg"
+                id="botonRevertir"
+              >
+                Revertir tasa
+              </button>
+
+              <p className="text-center text-base mt-4 text-gray-800" id="tasaActual">
+                Tasa actual ({tipoDolar}): {formatearNumero(tasa)}
+              </p>
+            </>
+          )}
+
+        </div>
       </div>
     </div>
-  </div>
-);
-
-};
+  );
+}
